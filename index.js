@@ -11,6 +11,7 @@ const cors = require("cors");
 const allowedOrigins = [
   "http://localhost:5173",
   "https://my-netlify-frontend.netlify.app",
+  "https://mern-movie-collection-frontend.vercel.app"
 ];
 
 app.use(
