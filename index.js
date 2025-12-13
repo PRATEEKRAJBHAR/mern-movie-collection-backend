@@ -1,32 +1,22 @@
-// import express
 const express = require("express");
 const app = express();
-
-// env config
 require("dotenv").config();
 
-// database connection
+// database
 const dbConnection = require("./config/DatabseConnetion");
 dbConnection();
 
-// port
-const PORT = process.env.PORT || 5000;
-
 // cors
 const cors = require("cors");
-
-// allowed frontend URLs
 const allowedOrigins = [
-  "http://localhost:5173", // local dev
-  "https://my-netlify-frontend.netlify.app", // production
+  "http://localhost:5173",
+  "https://my-netlify-frontend.netlify.app",
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow Postman / server requests
       if (!origin) return callback(null, true);
-
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -39,27 +29,23 @@ app.use(
   })
 );
 
-// VERY IMPORTANT for Vercel (preflight requests)
-app.options("*", cors());
-
-// cookie parser
+// middleware
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
-
-// middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// routes (ONLY ONCE)
+// routes
 const movieRouter = require("./Router/movieRouter");
 app.use("/api/users", movieRouter);
 
 // test route
 app.get("/", (req, res) => {
-  res.send("<h1>🚀 Backend is running successfully</h1>");
+  res.send("<h1>🚀 Backend running</h1>");
 });
 
-// server listen
+// server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
