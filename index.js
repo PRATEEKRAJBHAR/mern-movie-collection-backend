@@ -8,12 +8,27 @@ dbConnection();
 require("dotenv").config();
 const PORT= process.env.PORT||5000;
 // connect front-end to back-end
-const cors=require('cors')
-// app.use(cors());
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+const cors = require("cors");
+
+const allowedOrigins = [
+  "http://localhost:5173", // dev
+  "https://my-netlify-frontend.netlify.app", // production
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow non-browser requests like Postman
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // allow cookies
+  })
+);
+
 
 const cookie=require("cookie-parser")
 app.use(cookie());
