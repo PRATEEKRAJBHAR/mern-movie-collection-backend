@@ -25,11 +25,17 @@ exports.loginRoutes = async (req, res) => {
 
     const token = jwt.sign(payload, process.env.SECRETE_KEY, { expiresIn: "2h" });
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,   
-      sameSite: "lax"
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "lax"
+    // });
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none", 
+  maxAge: 24 * 60 * 60 * 1000,
+});
 
     return res.status(200).json({
       success: true,

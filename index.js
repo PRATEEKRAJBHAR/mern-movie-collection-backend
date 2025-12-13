@@ -1,74 +1,65 @@
 // import express
-const express=require("express");
-const app=express();
-// database connction with backend
-const dbConnection=require("./config/DatabseConnetion")
-dbConnection();
-// env se PORT import karne  k liye
+const express = require("express");
+const app = express();
+
+// env config
 require("dotenv").config();
-const PORT= process.env.PORT||5000;
-// connect front-end to back-end
+
+// database connection
+const dbConnection = require("./config/DatabseConnetion");
+dbConnection();
+
+// port
+const PORT = process.env.PORT || 5000;
+
+// cors
 const cors = require("cors");
 
+// allowed frontend URLs
 const allowedOrigins = [
-  "http://localhost:5173", // dev
+  "http://localhost:5173", // local dev
   "https://my-netlify-frontend.netlify.app", // production
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow non-browser requests like Postman
+      // allow Postman / server requests
+      if (!origin) return callback(null, true);
+
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // allow cookies
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+// VERY IMPORTANT for Vercel (preflight requests)
+app.options("*", cors());
 
-const cookie=require("cookie-parser")
-app.use(cookie());
-// middle ware
+// cookie parser
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+// middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// routes (ONLY ONCE)
+const movieRouter = require("./Router/movieRouter");
+app.use("/api/users", movieRouter);
 
-
-
-// movie \
-
-const movies=require('./Router/movieRouter')
-const createmovies=require('./Router/movieRouter')
-const getmovie=require('./Router/movieRouter')
-const updateMovie=require('./Router/movieRouter')
-const deleteMovie=require('./Router/movieRouter')
-const MovieregisterUser=require('./Router/movieRouter');
-const MovieloginUser=require("./Router/movieRouter")
-
-app.use('/api/users',movies)
-app.use('/api/users',createmovies)
-app.use('/api/users',getmovie)
-app.use('/api/users',updateMovie)
-app.use('/api/users',deleteMovie)
-app.use("/api/users",MovieregisterUser)
-app.use("/api/users",MovieloginUser)
-
-
+// test route
+app.get("/", (req, res) => {
+  res.send("<h1>🚀 Backend is running successfully</h1>");
+});
 
 // server listen
-
-app.listen(PORT,()=>{
-    console.log(`serever listent port number:${PORT}`);
-})
-
-// CHECK every thing ok or not
-
-app.get("/",(req,res)=>{
-    res.send(`<h1>jai baba barfani</h1>`)
-})
-
-
-
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
