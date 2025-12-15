@@ -46,7 +46,11 @@ res.cookie("token", token, {
       token
     });
   } catch (Err) {
-    console.log(Err)
-    res.status(500).json({ success: false, message: "something went wrong" });
-  }
+  console.error("LOGIN ERROR 👉", Err.message);
+  res.status(500).json({
+    success: false,
+    message: Err.message || "Server error"
+  });
+}
+
 };

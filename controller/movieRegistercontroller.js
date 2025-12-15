@@ -37,7 +37,7 @@ exports.registerRoute = async (req, res) => {
         console.error(err);
 
         res.status(400).json({
-            message: "something went wrong",
+            message: "some wrong",
             success: false
 
         })
