@@ -10,26 +10,29 @@ app.set("trust proxy", 1);
 const dbConnection = require("./config/DatabseConnetion");
 dbConnection();
 
-// CORS
+// ✅ FIXED CORS
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5175",
-  "https://mern-movie-collection-frontend.vercel.app",
+  "https://mern-movie-collection-frontend.vercel.app"
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS not allowed"));
-      }
-    },
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: function (origin, callback) {
+    // Postman / server-to-server requests
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -42,6 +45,7 @@ app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
-// ❌ REMOVE app.listen()
-// ✅ EXPORT APP FOR VERCEL
-module.exports = app;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
