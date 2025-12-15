@@ -8,9 +8,9 @@ The application is inspired by IMDb Top 250 Movies and is built with scalability
 
 🚀 Live Application
 
-Frontend (Netlify): https://your-frontend-url.netlify.app
+Frontend (vercel): [https://your-frontend-url.netlify.app](https://mern-movie-collection-frontend.vercel.app/)
 
-Backend (Railway/Render): https://your-backend-url.com
+Backend (vercel):[ https://your-backend-url.com](https://mern-movie-collection-backend.vercel.app/)
 
 🛠 Tech Stack
 Frontend
@@ -65,6 +65,18 @@ Release Date
 
 Duration
 
+
+End point 
+
+| Method | Endpoint                   | Description                               | Auth | Role  |
+| ------ | -------------------------- | ----------------------------------------- | ---- | ----- |
+| GET    | `/api/users/import-movies` | Import movies into database               | ✅    | Admin |
+| GET    | `/api/users/movies`        | Get all movies (search, sort, pagination) | ✅    | User  |
+| POST   | `/api/users/create-movie`  | Create a new movie                        | ✅    | Admin |
+| PUT    | `/api/users/update/:id`    | Update movie by ID                        | ✅    | Admin |
+| DELETE | `/api/users/delete/:id`    | Delete movie by ID                        | ✅    | Admin |
+
+
 🛡 Admin Features
 
 Add new movie
@@ -88,8 +100,7 @@ npm install
 
 
 Create a .env file with the following variables:
-
-DATABASE_URL=mongodb://127.0.0.1:27017/ramji
+DATABASE_URL=mongodb+srv://prateekrajbhar3311_db_user:beenu1234@cluster0.zhzq6ik.mongodb.net/test
 SECRET_KEY=mahadev
 PORT=3000
 
