@@ -9,7 +9,7 @@ exports.movieAuth = (req, res, next) => {
       return res.status(401).json({ success: false, message: "Token missing. Please login." });
     }
 
-    const decoded = jwt.verify(token, process.env.SECRETE_KEY);
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     // decoded must contain id, role etc.
     req.user = decoded;
     next();
