@@ -89,10 +89,6 @@ Access secured admin routes
 
 
 
-Navigate to backend folder:
-
-cd backend
-
 
 Install dependencies:
 
