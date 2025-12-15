@@ -23,7 +23,7 @@ exports.loginRoutes = async (req, res) => {
       role: user.role
     };
 
-    const token = jwt.sign(payload, process.env.SECRETE_KEY, { expiresIn: "2h" });
+    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "2h" });
 
     // res.cookie("token", token, {
     //   httpOnly: true,
@@ -33,7 +33,7 @@ exports.loginRoutes = async (req, res) => {
 res.cookie("token", token, {
   httpOnly: true,
   secure: true,
-  sameSite: "none", 
+  sameSite: "none",
   maxAge: 24 * 60 * 60 * 1000,
 });
 

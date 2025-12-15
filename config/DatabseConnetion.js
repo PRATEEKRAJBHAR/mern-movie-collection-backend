@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 const dbConnection = async () => {
   try {
     await mongoose.connect(process.env.DATABASE_URL);
-    console.log("MongoDB Atlas connected successfully ✅");
-  } catch (err) {
-    console.error("MongoDB connection failed ❌", err.message);
+    console.log("✅ MongoDB Connected");
+    console.log("📦 DB Name:", mongoose.connection.name);
+  } catch (error) {
+    console.error("❌ MongoDB Error:", error);
     process.exit(1);
   }
 };
